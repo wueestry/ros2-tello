@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>tello_description</name>
+  <name>tello_driver</name>
   <version>0.0.0</version>
-  <description>ros2_tello description</description>
+  <description>ros2_tello driver</description>
   <maintainer email="ryan.wueest@protonmail.com">Ryan Wüest</maintainer>
   <license>BSD-3-Clause</license>
 
