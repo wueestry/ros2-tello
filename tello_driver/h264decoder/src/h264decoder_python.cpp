@@ -1,12 +1,8 @@
-// TODO delete this!
-
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
 #include <stdexcept>
 
-// python string api, see
-// https://docs.python.org/2/c-api/string.html
 extern "C" {
 // #include <Python.h>
 }
@@ -23,7 +19,6 @@ namespace py = boost::python;
 using ubyte = unsigned char;
 
 class GILScopedReverseLock {
-  // see https://docs.python.org/2/c-api/init.html (Releasing the GIL ...)
 public:
   GILScopedReverseLock()
   //: state(nullptr)
