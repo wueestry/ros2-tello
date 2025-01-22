@@ -3,7 +3,7 @@
     nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/master";
     nixpkgs = {
       url = "github:cachix/devenv-nixpkgs/rolling";
-      follows = "nix-ros-overlay/nixpkgs";  # IMPORTANT!!!
+      follows = "nix-ros-overlay/nixpkgs"; # IMPORTANT!!!
     };
     systems.url = "github:nix-systems/default";
     devenv = {
@@ -24,7 +24,6 @@
       "https://ros.cachix.org"
     ];
   };
-
 
   outputs =
     {
@@ -68,8 +67,17 @@
                     # Change ros version here
                     colcon
                     ros-core # Add other packages here
+
+                    asio
                   ]
                 );
+                languages = {
+                  python = {
+                    enable = true;
+                    package = pkgs.python312Full;
+                  };
+                  cplusplus.enable = true;
+                };
               }
             ];
           };
