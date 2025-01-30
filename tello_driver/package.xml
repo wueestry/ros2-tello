@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+
+    <name>tello_driver</name>
+    <version>0.0.1</version>
+    <description>Tello ROS driver</description>
+
+    <maintainer email="ryan.wueest@protonmail.com">Ryan Wüest</maintainer>
+    <license>BSD</license>
+
+    <author>Ryan Wüest</author>
+
+    <buildtool_depend>ament_cmake</buildtool_depend>
+
+    <depend>camera_calibration_parsers</depend>
+    <depend>class_loader</depend>
+    <depend>cv_bridge</depend>
+    <depend>rclcpp</depend>
+    <depend>geometry_msgs</depend>
+    <depend>ros2_shared</depend>
+    <depend>sensor_msgs</depend>
+    <depend>std_msgs</depend>
+    <depend>tello_msgs</depend>
+
+    <export>
+        <build_type>ament_cmake</build_type>
+    </export>
+
+</package>
