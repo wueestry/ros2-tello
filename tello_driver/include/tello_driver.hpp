@@ -76,13 +76,20 @@ protected:
 
   virtual void process_packet(size_t r) = 0;
 
-  TelloDriverNode *driver_;        // Pointer to driver node
-  asio::io_service io_service_;    // IO service manager
-  asio::ip::udp::socket socket_;   // Socket
-  std::thread thread_;             // Thread of socket
-  std::mutex mtx_;                 // Mutex to guard public calls
-  bool receiving_ = false;         // Receiving status
-  rclcpp::Time receive_time_;      // Time of latest receiving packet
+  TelloDriverNode *driver_; // Pointer to driver node
+
+  asio::io_service io_service_; // IO service manager
+
+  asio::ip::udp::socket socket_; // Socket
+
+  std::thread thread_; // Thread of socket
+
+  std::mutex mtx_; // Mutex to guard public calls
+
+  bool receiving_ = false; // Receiving status
+
+  rclcpp::Time receive_time_; // Time of latest receiving packet
+
   std::vector<unsigned char> buf_; // Buffer to store packets
 };
 
@@ -101,14 +108,48 @@ public:
 
 private:
   void process_packet(size_t r) override;
+
   void complete_command(uint8_t rc, std::string str);
 
   asio::ip::udp::endpoint remote_endpoint_;
 
   rclcpp::Time send_time_; // Time of latest packet sent
-  bool responding_;        // Responding to tello_response_pub_
-  bool waiting_ = false;   // Waiting for response
+
+  bool responding_; // Responding to tello_response_pub_
+
+  bool waiting_ = false; // Waiting for response
 };
 
-class StateSocket
+class StateSocket : public TelloSocket {
+public:
+  StateSocket(TelloDriverNode *driver, unsigned short data_port); // Constructor
+
+private:
+  void process_packet(size_t r) override; // Process packets
+
+  uint8_t sdk_ = tello_msgs::msgs::FlightData::SDK_UNKNOWN; // Tello SDK version
+};
+
+class VideoSocket : public TelloSocket {
+public:
+  VideoSocket(TelloDriverNode *driver, unsigned short video_port,
+              const std::string &camera_info_path); // Constructor
+
+private:
+  void process_packet(size_t r) override; // Process packets
+
+  void decode_frames(); // Frame decoding
+
+  std::vector<unsigned char> seq_buffer_; // Buffer for video packets
+
+  size_t seq_buffer_next_ = 0; // Next free location in sequence buffer
+
+  int seq_buffer_num_packets_ = 0; // Number of packets collected
+
+  H264Decoder decoder_; // H264 decoder
+
+  ConverterRGB24 converter_; // RGB converter
+
+  sensor_msgs::msg::CameraInfo camera_info_msg_; // Camera info message
+};
 } // namespace tello_driver
